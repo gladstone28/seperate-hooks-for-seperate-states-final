@@ -1,70 +1,54 @@
-# Getting Started with Create React App
+[Link to codecademy lesson](https://www.codecademy.com/courses/react-101/lessons/the-effect-hook/exercises/separate-hooks-for-separate-effects)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+The Effect Hook
+Separate Hooks for Separate Effects
+20 min
+When multiple values are closely related and change at the same time, it can make sense to group these values in a collection like an object or array. Packaging data together can also add complexity to the code responsible for managing that data. Therefore, it is a good idea to separate concerns by managing different data with different Hooks.
 
-In the project directory, you can run:
+Compare the complexity here, where data is bundled up into a single object:
 
-### `npm start`
+// Handle both position and menuItems with one useEffect hook.
+const [data, setData] = useState({ position: { x: 0, y: 0 } });
+useEffect(() => {
+  get('/menu').then((response) => {
+    setData((prev) => ({ ...prev, menuItems: response.data }));
+  });
+  const handleMove = (event) =>
+    setData((prev) => ({
+      ...prev,
+      position: { x: event.clientX, y: event.clientY }
+    }));
+  window.addEventListener('mousemove', handleMove);
+  return () => window.removeEventListener('mousemove', handleMove);
+}, []);
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+To the simplicity here, where we have separated concerns:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+// Handle menuItems with one useEffect hook.
+const [menuItems, setMenuItems] = useState(null);
+useEffect(() => {
+  get('/menu').then((response) => setMenuItems(response.data));
+}, []);
 
-### `npm test`
+// Handle position with a separate useEffect hook.
+const [position, setPosition] = useState({ x: 0, y: 0 });
+useEffect(() => {
+  const handleMove = (event) =>
+    setPosition({ x: event.clientX, y: event.clientY });
+  window.addEventListener('mousemove', handleMove);
+  return () => window.removeEventListener('mousemove', handleMove);
+}, []);
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+It is not always obvious whether to bundle data together or separate it, but with practice, we get better at organizing our code so that it is easier to understand, add to, reuse, and test!
 
-### `npm run build`
+Instructions
+Checkpoint 1 Passed
+1.
+At the moment, this code seems to work just fine. There are three different network requests being made in a single effect and lots of different, unrelated data being managed in a single state variable. Let’s get to work breaking these single useState() and useEffect() calls into separate, simpler hooks. Doing so will make this code easier to understand, build on top of, and reuse as we continue to improve our application!
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Begin refactoring this component:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Use a separate State Hook for menu, newsFeed, and friends.
+Use these new state setters instead of setData() in the effect.
+Simplify our JSX to use these new state variables instead of data.
