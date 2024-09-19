@@ -1,13 +1,10 @@
 {
   "files": {
-    "main.css": "/seperate-hooks-for-seperate-states-final/static/css/main.f855e6bc.css",
-    "main.js": "/seperate-hooks-for-seperate-states-final/static/js/main.180f1fbd.js",
+    "main.js": "/seperate-hooks-for-seperate-states-final/static/js/main.c0cf1b0f.js",
     "index.html": "/seperate-hooks-for-seperate-states-final/index.html",
-    "main.f855e6bc.css.map": "/seperate-hooks-for-seperate-states-final/static/css/main.f855e6bc.css.map",
-    "main.180f1fbd.js.map": "/seperate-hooks-for-seperate-states-final/static/js/main.180f1fbd.js.map"
+    "main.c0cf1b0f.js.map": "/seperate-hooks-for-seperate-states-final/static/js/main.c0cf1b0f.js.map"
   },
   "entrypoints": [
-    "static/css/main.f855e6bc.css",
-    "static/js/main.180f1fbd.js"
+    "static/js/main.c0cf1b0f.js"
   ]
 }
